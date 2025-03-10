@@ -7,9 +7,24 @@
 <script>
 
 const logout = async (e) => {
-//Include the code for logout here.
-};
+    let logout_url = window.location.origin + "/djangoapp/logout/";
+    const res = await fetch(logout_url, {
+        method: "GET",
+    });
 
+    const json = await res.json();
+    if (json.userName === "") {  // Check if userName is empty, indicating logout success
+        let username = sessionStorage.getItem('username');
+        sessionStorage.removeItem('username');
+        
+        // Redirect to home page or any other page after logout
+        window.location.replace(window.location.origin);  // Use replace to navigate and avoid refreshing
+        
+        alert("Logging out " + username + "...");
+    } else {
+        alert("The user could not be logged out.");
+    }
+};
 let checkSession = ()=>{
   let curr_user = sessionStorage.getItem("username");
 
